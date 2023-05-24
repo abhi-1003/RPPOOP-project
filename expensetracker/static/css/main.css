@@ -11,6 +11,18 @@
       font-size: 3.5rem;
     }
   }
+  .showPasswordToggle {
+    cursor: pointer;
+    transition: all;
+    position:relative;
+    left: 320px;
+    top: 5px;
+  }
+
+  .showPasswordToggle:hover {
+    transform: scale(1.2);
+    
+  }
 
   .b-example-divider {
     width: 100%;

@@ -20,7 +20,7 @@ showPasswordToggle.addEventListener("click", handleToggleInput);
 
 emailField.addEventListener("keyup", (e) => {
   const emailVal = e.target.value;
-
+  
   emailField.classList.remove("is-invalid");
   emailFeedBackArea.style.display = "none";
 
