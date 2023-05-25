@@ -33,10 +33,10 @@ emailField.addEventListener("keyup", (e) => {
       .then((data) => {
         console.log("data", data);
         if (data.email_error) {
-          submitBtn.disabled = true;
           emailField.classList.add("is-invalid");
           emailFeedBackArea.style.display = "block";
           emailFeedBackArea.innerHTML = `<p>${data.email_error}</p>`;
+          submitBtn.disabled = true;
         } else {
           submitBtn.removeAttribute("disabled");
         }

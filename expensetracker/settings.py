@@ -1,4 +1,9 @@
 import os
+
+
+
+# Use the variables in your Django settings as needed
+
 from django.contrib import messages
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -134,9 +139,31 @@ STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MESSAGE_TAGS={
     messages.ERROR:'danger'
 }
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'expensetracker30@gmail.com'
+EMAIL_HOST_PASSWORD = 'rqxgoaczxwjwvnbm'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'expensetracker30@gmail.com'
+BASE_URL = 'http://127.0.0.1:8000'  # Replace with your actual base URL
+
+
+
+
+# EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+# EMAIL_HOST_USER = 'b238b273e15ff9'
+# EMAIL_HOST_PASSWORD = 'ef3cc61c10973b'
+# EMAIL_PORT = '2525'
+# LOGGING = {
+#     'version': 1,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'INFO',
+#     },
+#}
