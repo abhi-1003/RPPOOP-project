@@ -10,7 +10,7 @@
         <div class="card-title py-3">
           <h4>Login To Your Account</h4>
         </div>
-        <form action="{% url 'register' %}" method="post">
+        <form action="{% url 'login' %}" method="post">
           {% csrf_token %}
 
           {% include 'partials/_messages.html' %}
@@ -24,19 +24,6 @@
               class="form-control form-control-sm"
             />
           </div>
-          <div class="invalid_feedback invalid-feedback" style="display:none"></div>
-          <p class="text-sm text-success usernameSuccessOutput"></p>
-          <div class="form-group py-2">
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              class="form-control form-control-sm"
-              id="emailField"
-              value="{{fieldValues.email}}"
-            />
-          </div>
-          <div class="emailFeedBackArea invalid-feedback" style="display:none"></div>
           <div class="form-group py-2">
             <input
               type="password"
@@ -47,7 +34,7 @@
             />
             <small class="float-right py-3 showPasswordToggle">SHOW</small>
           </div>
-          <input type="submit" value="Register" class="btn btn-block btn-primary submit-btn" />
+          <input type="submit" value="Login" class="btn btn-block btn-primary submit-btn" />
         </form>
       </div>
     </div>
