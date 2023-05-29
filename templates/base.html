@@ -72,12 +72,14 @@
   <input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      {% comment %} <form action="{% url 'logout' %}" method="POST"> {% endcomment %}
-        {% comment %} {% csrf_token%} {% endcomment %}
-        <a href="authentication/logout">
-          <div class="text text-capitalize">Sign Out</div>
-        </a>
-      {% comment %} </form>   {% endcomment %}
+      <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token%}
+          <input 
+            class="text text-capitalize"
+            type="submit"
+            value="Sign out"
+          />
+      </form>  
     </div>
   </div>
 </header>
