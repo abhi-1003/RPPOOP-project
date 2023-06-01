@@ -38,10 +38,15 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group mt-4">
-                    <label for="">Date of Expense</label>
-                    <input type="date" value="{{values.date | date: 'Y-m-d'}}" class="form-control form-control-sm" name="expense_date" value="{{values.expense_date}}">
-                </div>
+                <div class="form-group">
+                    <label for="">Date of Income</label>
+                    <input
+                      type="date"
+                      value="{{values.date | date:'Y-m-d' }}"
+                      class="form-control form-control-sm"
+                      name="expense_date"
+                    />
+                  </div>
                 
                 
                 <input type="submit" value="Save" class="btn btn-outline-info mt-4">
