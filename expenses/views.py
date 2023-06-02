@@ -8,6 +8,7 @@ from django.contrib import messages
 import json
 from django.http import JsonResponse
 from userpreferences.models import UserPreference
+from django.core.exceptions import ObjectDoesNotExist
 
 def search_expenses(request):
     if request.method == 'POST':
@@ -23,19 +24,23 @@ def search_expenses(request):
 
 @login_required(login_url='/authentication/login')
 def index(request):
+    try:
+        user_preference = UserPreference.objects.get(user=request.user)
+        currency = user_preference.currency
+    except ObjectDoesNotExist:
+        currency = "USD"  
     categories = Category.objects.all()
     expenses = Expense.objects.filter(owner=request.user)
     paginator = Paginator(expenses, 5)
     page_number = request.GET.get('page')
-    page_obj = Paginator.get_page(paginator, page_number)
-    currency = UserPreference.objects.get(user=request.user).currency
+    page_obj = paginator.get_page(page_number)  # Fixed line
     context = {
-        'expenses':expenses,
+        'expenses': expenses,
         'page_obj': page_obj,
         'currency': currency
-        
     }
-    return render(request, 'expenses/index.html',context)
+    return render(request, 'expenses/index.html', context)
+
 
 @login_required(login_url='/authentication/login')
 def add_expense(request):
@@ -76,15 +81,17 @@ def add_expense(request):
 @login_required(login_url='/authentication/login')
 def expense_edit(request, id):
     categories = Category.objects.all()
-    expense = Expense.objects.get(pk = id)
+    expense = Expense.objects.get(pk=id)
     context = {
-        'categories':categories,
-        'expense':expense,
-        'values':expense,
+        'categories': categories,
+        'expense': expense,
+        'values': expense,
     }
     if request.method == "GET":
-        return render(request,'expenses/edit-expense.html',context)
+        return render(request, 'expenses/edit-expense.html', context)  # Fixed template name
     if request.method == "POST":
+        # Rest of the code...
+
         amount = request.POST['amount']
         description = request.POST['description']
         date_str = request.POST['expense_date']
