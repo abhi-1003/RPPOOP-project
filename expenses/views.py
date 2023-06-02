@@ -1,6 +1,6 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Expense,Category
+from .models import Expense, Category
 from django.core.paginator import Paginator
 from datetime import datetime
 # Create your views here.
@@ -58,11 +58,10 @@ def add_expense(request):
         date_str = request.POST['expense_date']
         category = request.POST['category']
 
-
         if not amount:
             messages.error(request, 'Amount is required')
             return render(request, 'expenses/add_expense.html', context)
-        
+
         if not description:
             messages.error(request, 'Description is required')
             return render(request, 'expenses/add_expense.html', context)
@@ -72,8 +71,14 @@ def add_expense(request):
         except ValueError:
             messages.error(request, 'Invalid date format')
             return render(request, 'expenses/add_expense.html', context)
-        
-        Expense.objects.create(owner=request.user, amount=amount, date=date, category=category, description=description)
+
+        Expense.objects.create(
+            owner=request.user,
+            amount=amount,
+            date=date,
+            category=category,
+            description=description
+        )
         messages.success(request, 'Expense saved successfully')
 
         return redirect('expenses')
@@ -127,3 +132,32 @@ def delete_expense(request, id):
     expense.delete()
     messages.success(request, "Expense removed")
     return redirect('expenses')
+
+
+def expense_category_summary(request):
+    todays_date = datetime.date.today()
+    six_months_ago = todays_date-datetime.timedelta(days=30*6)
+    expenses = Expense.objects.filter(owner=request.user,
+                                      date__gte=six_months_ago, date__lte=todays_date)
+    finalrep = {}
+
+    def get_category(expense):
+        return expense.category
+    category_list = list(set(map(get_category, expenses)))
+
+    def get_expense_category_amount(category):
+        amount = 0
+        filtered_by_category = expenses.filter(category=category)
+
+        for item in filtered_by_category:
+            amount += item.amount
+        return amount
+
+    for x in expenses:
+        for y in category_list:
+            finalrep[y] = get_expense_category_amount(y)
+
+    return JsonResponse({'expense_category_data': finalrep}, safe=False)
+
+def stats_view(request):
+    return render(request,'expenses/stats.html')
