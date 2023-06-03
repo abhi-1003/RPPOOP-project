@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Expense, Category
 from django.core.paginator import Paginator
-from datetime import datetime
-# Create your views here.
+from datetime import datetime, date
 from django.contrib import messages
+from datetime import timedelta
 import json
 from django.http import JsonResponse
 from userpreferences.models import UserPreference
@@ -135,14 +135,16 @@ def delete_expense(request, id):
 
 
 def expense_category_summary(request):
-    todays_date = datetime.date.today()
-    six_months_ago = todays_date-datetime.timedelta(days=30*6)
-    expenses = Expense.objects.filter(owner=request.user,
-                                      date__gte=six_months_ago, date__lte=todays_date)
+    todays_date = date.today()
+    six_months_ago = todays_date - timedelta(days=30 * 6)
+    expenses = Expense.objects.filter(
+        owner=request.user, date__gte=six_months_ago, date__lte=todays_date
+    )
     finalrep = {}
 
     def get_category(expense):
         return expense.category
+
     category_list = list(set(map(get_category, expenses)))
 
     def get_expense_category_amount(category):
@@ -157,7 +159,7 @@ def expense_category_summary(request):
         for y in category_list:
             finalrep[y] = get_expense_category_amount(y)
 
-    return JsonResponse({'expense_category_data': finalrep}, safe=False)
+    return JsonResponse({"expense_category_data": finalrep}, safe=False)
 
 def stats_view(request):
     return render(request,'expenses/stats.html')
