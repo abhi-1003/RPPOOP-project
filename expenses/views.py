@@ -256,9 +256,10 @@ def export_pdf(request):
 
     # Add the image to the PDF
     pdf.image(image_path, x=85, y=pdf.y+200, w=image_width, h=image_height)
+    i = 1
     for expense in expenses:
         pdf.set_font('Arial', 'B', 12)
-        pdf.cell(0, 10, 'Expense {}'.format(expense.id), align='L')
+        pdf.cell(0, 10, 'Expense {}'.format(i), align='L')
         pdf.ln(5)
         pdf.set_font('Arial', '', 12)
         pdf.cell(0, 10, 'Amount: {}'.format(expense.amount), align='L')
@@ -269,6 +270,7 @@ def export_pdf(request):
         pdf.ln(5)
         pdf.cell(0, 10, 'Date: {}'.format(expense.date), align='L')
         pdf.ln(10)
+        i+=1
 
     # Get the PDF content as a byte array
     pdf_data = pdf.output(dest='S').encode('latin-1')

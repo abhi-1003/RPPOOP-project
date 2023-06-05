@@ -8,7 +8,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a href="">Expenses Summary</a>
+            <a href="">Income Summary</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
            Summary
@@ -31,6 +31,7 @@
   </div>
 </div>
 
+<!-- Include Chart.js library -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -40,7 +41,7 @@
   const initialChartData = {
     labels: [],
     datasets: [{
-      label: 'Expenses',
+      label: 'Income',
       data: [],
       backgroundColor: 'rgba(54, 162, 235, 0.5)', // Set the bar color
       borderColor: 'rgba(54, 162, 235, 1)', // Set the border color
@@ -48,7 +49,7 @@
     }]
   };
 
-  // Create the chart with initial data and options
+  // Create the chart with initial data
   const chart = new Chart(ctx, {
     type: 'bar',
     data: initialChartData,
@@ -56,8 +57,7 @@
       responsive: false,
       scales: {
         y: {
-          beginAtZero: true,
-          min: 0 // Set the minimum value for the y-axis scale
+          beginAtZero: true
         }
       }
     }
@@ -70,10 +70,10 @@
     chart.update();
   }
 
-  // Make an AJAX request to fetch the expense category summary data
-  fetch('{% url "expense_category_summary" %}')
+  // Make an AJAX request to fetch the income source summary data
+  fetch('{% url "income_source_summary" %}')
     .then(response => response.json())
-    .then(data => updateChartData(data.expense_category_data))
+    .then(data => updateChartData(data.income_source_data))
     .catch(error => console.log(error));
 </script>
 {% endblock content %}
