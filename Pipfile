@@ -11,6 +11,8 @@ gunicorn = "*"
 waitress = "*"
 validate-email = "*"
 six = "*"
+xlwt = "*"
+weasyprint = "*"
 
 [dev-packages]
 

@@ -1,22 +1,40 @@
-{/* <script>
-  const ctx = document.getElementById('myChart');
+const ctx = document.getElementById('myChart');
 
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+// Define the initial chart data
+const initialChartData = {
+  labels: [],
+  datasets: [{
+    label: 'Expenses',
+    data: [],
+    backgroundColor: 'rgba(54, 162, 235, 0.5)', // Set the bar color
+    borderColor: 'rgba(54, 162, 235, 1)', // Set the border color
+    borderWidth: 1
+  }]
+};
+
+// Create the chart with initial data
+const chart = new Chart(ctx, {
+  type: 'bar',
+  data: initialChartData,
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true
       }
     }
-  });
-</script> */}
+  }
+});
+
+// Function to update the chart data
+function updateChartData(data) {
+  chart.data.labels = Object.keys(data);
+  chart.data.datasets[0].data = Object.values(data);
+  chart.update();
+}
+
+// Make an AJAX request to fetch the expense category summary data
+fetch('expense_category_summary')
+  .then(response => response.json())
+  .then(data => updateChartData(data.expense_category_data))
+  .catch(error => console.log(error));
