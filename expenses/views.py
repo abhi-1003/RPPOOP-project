@@ -243,7 +243,7 @@ def export_pdf(request):
     pdf.cell(0, 10, 'Total: {}'.format(total['amount__sum']), align='L')
     pdf.ln(10)
 
-    image_path = 'image1.png'  # Replace with the actual path to your image file
+    image_path = 'expenses/image1.png'  # Replace with the actual path to your image file
     image = Image.open(image_path)
     image_width, image_height = image.size
     max_image_width = 40  # Define the maximum width for the image
