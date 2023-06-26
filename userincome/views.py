@@ -186,7 +186,7 @@ def export_income_pdf(request):
     image = image.resize((image_width, image_height), Image.ANTIALIAS)
 
     # Add the image to the PDF
-    pdf.image(image_path, x=85, y=pdf.y + 200, w=image_width, h=image_height)
+    pdf.image(image_path, x=85, y=pdf.y + 10, w=image_width, h=image_height)
     i = 1
     for income in incomes:
         pdf.set_font('Arial', 'B', 12)

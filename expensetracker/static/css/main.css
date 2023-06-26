@@ -81,3 +81,8 @@
   .bd-mode-toggle {
     z-index: 1500;
   }
+  .usernameSuccess {
+    display: block;
+    color: green;
+  }
+  

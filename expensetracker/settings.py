@@ -90,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'expenseTrackerDB',
         'USER': 'postgres',
-        'PASSWORD': 'Abhinavk24@',
+        'PASSWORD': '367820',
         'HOST': 'localhost',
     }
 }
@@ -169,3 +169,7 @@ BASE_URL = 'http://127.0.0.1:8000'  # Replace with your actual base URL
 #         'level': 'INFO',
 #     },
 #}
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'templates'),
+]

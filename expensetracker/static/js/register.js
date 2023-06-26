@@ -6,6 +6,7 @@ const passwordField = document.querySelector("#passwordField");
 const usernameSuccessOutput = document.querySelector(".usernameSuccessOutput");
 const showPasswordToggle = document.querySelector(".showPasswordToggle");
 const submitBtn = document.querySelector(".submit-btn");
+
 const handleToggleInput = (e) => {
   if (showPasswordToggle.textContent === "SHOW") {
     showPasswordToggle.textContent = "HIDE";
@@ -20,7 +21,7 @@ showPasswordToggle.addEventListener("click", handleToggleInput);
 
 emailField.addEventListener("keyup", (e) => {
   const emailVal = e.target.value;
-  
+
   emailField.classList.remove("is-invalid");
   emailFeedBackArea.style.display = "none";
 
@@ -44,32 +45,34 @@ emailField.addEventListener("keyup", (e) => {
   }
 });
 
+let usernameTimeout; // Variable to store the timeout for username validation
+
 usernameField.addEventListener("keyup", (e) => {
   const usernameVal = e.target.value;
 
-  usernameSuccessOutput.style.display = "block";
+  clearTimeout(usernameTimeout); // Clear the previous timeout if exists
 
-  usernameSuccessOutput.textContent = `Checking  ${usernameVal}`;
-
+  usernameSuccessOutput.style.display = "none";
   usernameField.classList.remove("is-invalid");
   feedBackArea.style.display = "none";
 
   if (usernameVal.length > 0) {
-    fetch("/authentication/validate-username", {
-      body: JSON.stringify({ username: usernameVal }),
-      method: "POST",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        usernameSuccessOutput.style.display = "none";
-        if (data.username_error) {
-          usernameField.classList.add("is-invalid");
-          feedBackArea.style.display = "block";
-          feedBackArea.innerHTML = `<p>${data.username_error}</p>`;
-          submitBtn.disabled = true;
-        } else {
-          submitBtn.removeAttribute("disabled");
-        }
-      });
+    usernameTimeout = setTimeout(() => {
+      fetch("/authentication/validate-username", {
+        body: JSON.stringify({ username: usernameVal }),
+        method: "POST",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.username_error) {
+            usernameField.classList.add("is-invalid");
+            feedBackArea.style.display = "block";
+            feedBackArea.innerHTML = `<p>${data.username_error}</p>`;
+            submitBtn.disabled = true;
+          } else {
+            submitBtn.removeAttribute("disabled");
+          }
+        });
+    }, 500); // Wait for 500 milliseconds of inactivity before sending the request
   }
 });
